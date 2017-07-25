@@ -1,7 +1,74 @@
-# Image Resizer
+# Скрипт для изменения размера изображения
 
-[TODO. There will be project description]
+Принимает на вход изображение и кладёт изображение с новым размером куда скажет пользователь или рядом с исходным.
 
-# Project Goals
+# Логика работы
 
-The code is written for educational purposes. Training course for web-developers - [DEVMAN.org](https://devman.org)
+* Если указана только ширина – высота считается так, чтобы сохранить пропорции изображения. И наоборот. – Если указана и ширина и высота – создать именно такое изображение. Вывести в консоль предупреждение, если пропорции не совпадают с исходным изображением.
+* Если указан масштаб, то ширина и высота указаны быть не могут. Иначе никакого ресайза не происходит и скрипт ломается с понятной ошибкой.
+* Если не указан путь до финального файла, то результат кладётся рядом с исходным файлом. Если исходный файл называется `pic.jpg` (100x200), 
+то после вызова `python image_resize.py --scale 2 pic.jpg` должен появиться файл `pic__200x400.jpg`.
+
+# Установка и использование
+
+Скрипт требует для своей работы установленного интерпретатора Python версии 3.5 и библиотеки [Pillow](https://pypi.python.org/pypi/Pillow/3.3.1)
+
+Установка библиотек:
+
+```#!bash
+pip install -r requirements.txt
+```
+
+Справка:
+
+```
+$ python3 image_resize.py -h
+usage: image_resize.py [-h] [-w WIDTH] [-he HEIGHT] [-s SCALE] [-o OUTPUT]
+                       input
+
+positional arguments:
+  input                 Путь к исходному изображению
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -w WIDTH, --width WIDTH
+                        Ширина нового изображения
+  -he HEIGHT, --height HEIGHT
+                        Высота нового изображения
+  -s SCALE, --scale SCALE
+                        Масштаб нового изображения (может быть меньше 1)
+  -o OUTPUT, --output OUTPUT
+                        Название нового файла
+```
+
+Примеры использования:
+
+```
+$ python3 image_resize.py image0__100x200.png -s 3
+Размер новго изображения – 300x600
+```
+
+```
+$ python3 image_resize.py image0__100x200.jpg -o out.jpg  -he 8 -w 15
+Внимание! Пропорции не сохранены!
+Размер новго изображения – 15x8
+```
+
+```
+$ python3 image_resize.py image0__100x200.png -w 900
+Размер новго изображения – 900x1800
+```
+
+```
+$ python3 image_resize.py image0__100x200.jpg -he 50
+Размер новго изображения – 25x50
+```
+
+```
+$ python3 image_resize.py image0__100x200.jpg -s -3
+Размер новго изображения – 33x66
+```
+
+# Цели проекта
+
+Этот код был написан в образовательных целях. Тренировачный курс для веб девелоперов - [DEVMAN.org](https://devman.org)
