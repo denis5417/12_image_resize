@@ -32,16 +32,7 @@ if __name__ == '__main__':
     img = load_image(parse_args().input)
     if not img:
         exit("Такого файла не существует")
-    if result_width and result_height:
-        if result_width/float(img.size[0]) != result_height/float(img.size[1]):
-            print("Внимание! Пропорции не сохранены!")
-        img = resize.resize_image_by_width_and_height(img, result_width, result_height)
-    elif result_scale:
-        img = resize.resize_image_by_scale(img, result_scale)
-    elif result_width:
-        img = resize.resize_image_by_width(img, result_width)
-    else:
-        img = resize.resize_image_by_height(img, result_height)
+    img = resize.resize_image(img, result_width, result_height)
     if not img:
         exit("Неправильные параметры. Смотрите справку")
     if parse_args().output:
