@@ -21,18 +21,18 @@ def parse_args():
     return parser.parse_args()
 
 
+def is_invalid_args(result_width, result_height, result_scale):
+    is_args_conflicts = ((result_width and result_height) or (result_width or result_height)) and result_scale
+    is_no_args = result_width is None and result_height is None and result_scale is None
+    return is_args_conflicts or is_no_args
+
 if __name__ == '__main__':
-    result_width = parse_args().width
-    result_height = parse_args().height
-    result_scale = parse_args().scale
-    if ((result_width and result_height) or (result_width or result_height)) and result_scale:
-        exit("Вы можете указать только ширину / высоту / ширину и высоту / масштаб!")
-    elif result_width is None and result_height is None and result_scale is None:
-        exit("Укажите хотя бы одно значение!")
+    if is_invalid_args(parse_args().width, parse_args().height, parse_args().scale):
+        exit("Укажите только ширину / высоту / ширину и высоту / масштаб! И хотя бы одно из этих значений!")
     img = load_image(parse_args().input)
     if not img:
         exit("Такого файла не существует")
-    img = resize.resize_image(img, result_width, result_height)
+    img = resize.resize_image(img, parse_args().result_width, parse_args().result_height)
     if not img:
         exit("Неправильные параметры. Смотрите справку")
     if parse_args().output:
