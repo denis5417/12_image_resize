@@ -27,17 +27,18 @@ def is_invalid_args(result_width, result_height, result_scale):
     return is_args_conflicts or is_no_args
 
 if __name__ == '__main__':
-    if is_invalid_args(parse_args().width, parse_args().height, parse_args().scale):
+    args = parse_args()
+    if is_invalid_args(args.width, args.height, args.scale):
         exit("Укажите только ширину / высоту / ширину и высоту / масштаб! И хотя бы одно из этих значений!")
-    img = load_image(parse_args().input)
+    img = load_image(args.input)
     if not img:
         exit("Такого файла не существует")
-    img = resize.resize_image(img, parse_args().result_width, parse_args().result_height)
+    img = resize.resize_image(img, args.width, args.height, args.scale)
     if not img:
         exit("Неправильные параметры. Смотрите справку")
-    if parse_args().output:
-        img.save(parse_args().output)
+    if args.output:
+        img.save(args.output)
     else:
-        input_split = path.splitext(parse_args().input)
+        input_split = path.splitext(args.input)
         img.save("{}__{}x{}{}".format(input_split[0], img.size[0], img.size[1], input_split[1]))
     print("Размер новго изображения – {}x{}".format(img.size[0], img.size[1]))
